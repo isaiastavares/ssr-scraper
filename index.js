@@ -103,7 +103,7 @@ vendors.forEach(vendor => {
     reviews.push(schema)
 })
 
-console.log('Reviews: ' + JSON.stringify(reviews2));
+console.log('Reviews: ' + JSON.stringify(reviews));
 
 let script = document.createElement("script");
 script.type = "application/ld+json";
