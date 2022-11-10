@@ -2,6 +2,15 @@ let organizationTemplate = `
 {
     "@type": "Organization",
     "name": "SelectSoftware Reviews",
+    "address": {
+        "@type": "PostalAddress",
+        "name": "SelectSoftware Reviews Address",
+        "addressCountry": "http://www.wikidata.org/wiki/Q30",
+        "addressLocality": "Cambridge",
+        "addressRegion": "Massachusetts",
+        "postalCode": "02139",
+        "streetAddress": "196 Broadway, Suite 200"
+    },
     "sameAs": [
         "https://twitter.com/bestb2bsoftware",
         "https://www.facebook.com/selectsoftwarereviews/",
@@ -12,7 +21,8 @@ let organizationTemplate = `
     "telephone": "+13194812578",
     "url": "https://www.selectsoftwarereviews.com/",
     "knowsLanguage": "http://www.wikidata.org/wiki/Q1860",
-    "areaServed": "http://www.wikidata.org/entity/Q13780930"
+    "areaServed": "http://www.wikidata.org/entity/Q13780930",
+    "@id": "https://www.selectsoftwarereviews.com/#organization"
 }
 `;
 
@@ -26,21 +36,32 @@ let imageObjectTemplate = `
 let webPageTemplate = `
 {
     "@type": "WebPage",
+    "primaryImageOfPage": {},
+    "url": "REPLACE",
+    "name": "REPLACE",
+    "datePublished": "REPLACE",
+    "dateModified": "REPLACE",
+    "description": "REPLACE",
     "inLanguage": "en-US",
     "potentialAction": {
         "@type": "ReadAction"
     },
     "reviewedBy": {
         "@type": "Person",
+        "name": "REPLACE",
         "image": {
             "@type": "ImageObject",
-            "inLanguage": "en-US"
+            "inLanguage": "en-US",
+            "url": "REPLACE"
         },
         "sameAs": [
             "https://www.linkedin.com/in/philstrazzulla/",
             "https://twitter.com/philstrazzulla"
-        ]
-    }
+        ],
+        "url": "REPLACE",
+        "description": "REPLACE"
+    },
+    "@id": "https://cybernews.com/best-vpn/nordvpn-review/#webpage"
 }
 `;
 
@@ -49,7 +70,22 @@ let reviewTemplate = `
     "@type": "Review",
     "itemReviewed": {
         "@type": "SoftwareApplication",
-        "applicationCategory": "BusinessApplication"
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows, macOS, Android, iOS, and Linux"
+    },
+    "name": "REPLACE",
+    "publisher": {
+        "@id": "https://cybernews.com/#organization"
+    },
+    "author": {
+        "@id": "https://cybernews.com/#person"
+    },
+    "reviewBody": "REPLACE",
+    "mainEntityOfPage": "REPLACE",
+    "datePublished": "REPLACE",
+    "url": "REPLACE",
+    "isPartOf": {
+        "@id": "https://cybernews.com/best-vpn/nordvpn-review/#webpage"
     }
 }
 `;
@@ -57,6 +93,7 @@ let reviewTemplate = `
 let personTemplate = `
 {
     "@type": "Person",
+    "name": "REPLACE",
     "image": {
         "@type": "ImageObject",
         "inLanguage": "en-US"
@@ -64,7 +101,10 @@ let personTemplate = `
     "sameAs": [
         "https://www.linkedin.com/in/philstrazzulla/",
         "https://twitter.com/philstrazzulla"
-    ]
+    ],
+    "url": "REPLACE",
+    "description": "REPLACE",
+    "@id": "https://www.selectsoftwarereviews.com/#person"
 }
 `;
 
@@ -85,13 +125,16 @@ let faq = JSON.parse(faqTemplate)
 
 // image object
 let imageUrl = document.querySelector('.ss-reviews-mainphoto > img').src
-let imageCaption = document.querySelector('.ss-graybox-note-text').innerHTML
+let pageUrl = document.querySelector("[rel='canonical']").href
+let primaryImageId = pageUrl  + '/#primaryimage'
 
 imageObject['url'] = imageUrl
-imageObject['caption'] = imageCaption
+imageObject['@id'] = primaryImageId
 
 // web page
-let pageUrl = location.href
+let primaryImageOfPage = webPage.primaryImageOfPage
+primaryImageOfPage['@id'] = primaryImageId
+
 let pageTitle = document.querySelector('meta[property~="og:title"]')?.content;
 let date = document.querySelector('.ss-review-aithor-date').innerHTML
 let dateFormat = new Date(date).toISOString();
@@ -152,6 +195,9 @@ let vendorImage = document.querySelector('.ss-review-screenshot').src
 
 itemReviewed['name'] = vendorName.split(' ').shift();
 itemReviewed['image'] = vendorImage
+
+let author = review.author
+author['name'] = authorName
 
 let positiveNotes = {}
 positiveNotes['@type'] = 'ItemList'
