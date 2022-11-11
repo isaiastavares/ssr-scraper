@@ -39,7 +39,6 @@ let webPageTemplate = `
     "primaryImageOfPage": {},
     "url": "REPLACE",
     "name": "REPLACE",
-    "datePublished": "REPLACE",
     "dateModified": "REPLACE",
     "description": "REPLACE",
     "inLanguage": "en-US",
@@ -54,14 +53,8 @@ let webPageTemplate = `
             "inLanguage": "en-US",
             "url": "REPLACE"
         },
-        "sameAs": [
-            "https://www.linkedin.com/in/philstrazzulla/",
-            "https://twitter.com/philstrazzulla"
-        ],
-        "url": "REPLACE",
         "description": "REPLACE"
-    },
-    "@id": "https://cybernews.com/best-vpn/nordvpn-review/#webpage"
+    }
 }
 `;
 
@@ -70,23 +63,23 @@ let reviewTemplate = `
     "@type": "Review",
     "itemReviewed": {
         "@type": "SoftwareApplication",
+        "name": "REPLACE",
         "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Windows, macOS, Android, iOS, and Linux"
+        "operatingSystem": "Windows, macOS, Android, iOS, and Linux",
+        "image": "REPLACE"
     },
     "name": "REPLACE",
     "publisher": {
-        "@id": "https://cybernews.com/#organization"
+        "@id": "https://www.selectsoftwarereviews.com/#organization"
     },
     "author": {
-        "@id": "https://cybernews.com/#person"
+        "@id": "https://www.selectsoftwarereviews.com/#person"
     },
     "reviewBody": "REPLACE",
     "mainEntityOfPage": "REPLACE",
     "datePublished": "REPLACE",
     "url": "REPLACE",
-    "isPartOf": {
-        "@id": "https://cybernews.com/best-vpn/nordvpn-review/#webpage"
-    }
+    "isPartOf": {}
 }
 `;
 
@@ -98,11 +91,6 @@ let personTemplate = `
         "@type": "ImageObject",
         "inLanguage": "en-US"
     },
-    "sameAs": [
-        "https://www.linkedin.com/in/philstrazzulla/",
-        "https://twitter.com/philstrazzulla"
-    ],
-    "url": "REPLACE",
     "description": "REPLACE",
     "@id": "https://www.selectsoftwarereviews.com/#person"
 }
@@ -142,7 +130,6 @@ let pageDescription = document.querySelector('meta[property~="og:description"]')
 
 webPage['url'] = pageUrl
 webPage['name'] = pageTitle
-webPage['datePublished'] = dateFormat
 webPage['dateModified'] = dateFormat
 webPage['description'] = pageDescription
 
@@ -154,15 +141,15 @@ potentialAction['target'] = [target]
 
 let reviewedBy = webPage.reviewedBy
 let authorName = document.querySelector('.ss-buyer-author-name').innerHTML
-let authorUrl = 'NOT_FOUND' // NOT FOUND
 let authorDescription = document.querySelector('.ss-review-aithor-postion').innerHTML
 
 reviewedBy['name'] = authorName
-reviewedBy['url'] = authorUrl
 reviewedBy['description'] = authorDescription
 let authorImage = reviewedBy.image
 let authorImageUrl = document.querySelector('.ss-buyer-author-photo > img').src
 authorImage['url'] =  authorImageUrl
+
+webPage['@id'] = pageUrl + '#webpage'
 
 // review
 let reviewBody= '';
@@ -196,8 +183,8 @@ let vendorImage = document.querySelector('.ss-review-screenshot').src
 itemReviewed['name'] = vendorName.split(' ').shift();
 itemReviewed['image'] = vendorImage
 
-let author = review.author
-author['name'] = authorName
+let isPartOf = review.isPartOf
+isPartOf['@id'] = pageUrl + '#webpage'
 
 let positiveNotes = {}
 positiveNotes['@type'] = 'ItemList'
@@ -235,7 +222,6 @@ if (cons.length) {
 
 // person
 person['name'] = authorName
-person['url'] = 'NOT_FOUND'// NOT FOUND
 person['description'] = authorDescription
 
 personImage = person.image
@@ -287,9 +273,6 @@ if (faq.mainEntity.length) {
 }
 
 schema['@graph'] = graph
-
-console.log(schema);
-console.log(JSON.stringify(schema));
 
 // create script
 let script = document.createElement("script");
