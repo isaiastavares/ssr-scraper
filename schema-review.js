@@ -226,7 +226,7 @@ person['description'] = authorDescription
 
 personImage = person.image
 personImage['url'] = authorImageUrl
-personImage['caption'] = authorDescription
+personImage['caption'] = authorName
 
 // faq
 let mainEntity = []
@@ -273,6 +273,9 @@ if (faq.mainEntity.length) {
 }
 
 schema['@graph'] = graph
+
+console.log(schema);
+console.log(JSON.stringify(schema));
 
 // create script
 let script = document.createElement("script");
