@@ -77,7 +77,6 @@ let reviewTemplate = `
     },
     "reviewBody": "REPLACE",
     "mainEntityOfPage": "REPLACE",
-    "datePublished": "REPLACE",
     "url": "REPLACE",
     "isPartOf": {}
 }
@@ -173,7 +172,6 @@ for(let i = 0; i < reviews.length; i++) {
 review['name'] = pageTitle
 review['reviewBody'] = reviewBody
 review['mainEntityOfPage'] = pageUrl
-review['datePublished'] = dateFormat
 review['url'] = pageUrl
 
 let itemReviewed = review.itemReviewed
