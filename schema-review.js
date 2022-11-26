@@ -68,6 +68,12 @@ let reviewTemplate = `
         "operatingSystem": "Windows, macOS, Android, iOS, and Linux",
         "image": "REPLACE"
     },
+    "reviewRating": {
+        "@type": "Rating",
+        "worstRating": 0,  
+        "bestRating": 5,
+        "ratingValue": 0
+    },
     "name": "REPLACE",
     "publisher": {
         "@id": "https://www.selectsoftwarereviews.com/#organization"
@@ -77,6 +83,7 @@ let reviewTemplate = `
     },
     "reviewBody": "REPLACE",
     "mainEntityOfPage": "REPLACE",
+    "datePublished": "REPLACE",
     "url": "REPLACE",
     "isPartOf": {}
 }
@@ -172,6 +179,7 @@ for(let i = 0; i < reviews.length; i++) {
 review['name'] = pageTitle
 review['reviewBody'] = reviewBody
 review['mainEntityOfPage'] = pageUrl
+review['datePublished'] = dateFormat
 review['url'] = pageUrl
 
 let itemReviewed = review.itemReviewed
@@ -180,6 +188,10 @@ let vendorImage = document.querySelector('.ss-review-screenshot').src
 
 itemReviewed['name'] = vendorName.split(' ').shift();
 itemReviewed['image'] = vendorImage
+
+let reviewRating = review.reviewRating
+let ratingValue = document.querySelector('.ss-reviews-rating-row').nextElementSibling
+reviewRating['ratingValue'] = ratingValue.innerText
 
 let isPartOf = review.isPartOf
 isPartOf['@id'] = pageUrl + '#webpage'
