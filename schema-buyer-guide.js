@@ -80,7 +80,7 @@ let faq = JSON.parse(faqTemplate)
 let pageUrl = document.querySelector("[rel='canonical']").href
 let pageTitle = document.querySelector('.ssr-h1').innerHTML
 let pageDescription = document.querySelector('meta[property~="og:description"]')?.content;
-let date = document.querySelector('.ss-review-aithor-date').innerHTML
+let date = document.querySelector('.ss-review-author-date').innerHTML
 let dateFormat = new Date(date).toISOString();
 
 article['headline'] = pageTitle
