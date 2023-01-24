@@ -130,7 +130,7 @@ let primaryImageOfPage = webPage.primaryImageOfPage
 primaryImageOfPage['@id'] = primaryImageId
 
 let pageTitle = document.querySelector('meta[property~="og:title"]')?.content;
-let date = document.querySelector('.ss-review-aithor-date').innerHTML
+let date = document.querySelector('.ss-review-author-date').innerHTML
 let dateFormat = new Date(date).toISOString();
 let pageDescription = document.querySelector('meta[property~="og:description"]')?.content;
 
@@ -147,7 +147,7 @@ potentialAction['target'] = [target]
 
 let reviewedBy = webPage.reviewedBy
 let authorName = document.querySelector('.ss-buyer-author-name').innerHTML
-let authorDescription = document.querySelector('.ss-review-aithor-postion').innerHTML
+let authorDescription = document.querySelector('.ss-review-author-postion').innerHTML
 
 reviewedBy['name'] = authorName
 reviewedBy['description'] = authorDescription
