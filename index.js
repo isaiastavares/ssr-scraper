@@ -56,11 +56,11 @@ vendors.forEach(vendor => {
 
     let review = schema.review
     review['reviewBody'] = vendor.querySelector('.rich-text-block-9 > p').innerHTML
-    review['datePublished'] = document.querySelector('.ss-review-aithor-date').innerHTML
+    review['datePublished'] = document.querySelector('.ss-review-author-date').innerHTML
 
     let author = review.author
     author['name'] = document.querySelector('.ss-buyer-author-name').innerHTML
-    author['description'] = document.querySelector('.ss-review-aithor-postion').innerHTML
+    author['description'] = document.querySelector('.ss-review-author-postion').innerHTML
     author['url'] = document.querySelector('.buyer-guide > a').href
 
     let offer = schema.offers
