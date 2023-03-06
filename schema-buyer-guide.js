@@ -155,11 +155,10 @@ itemList['itemListElement'] = items
 
 // faq
 let mainEntity = []
-document.querySelectorAll('#tips').forEach(elem => {
-    let faqElement = elem.querySelector('#faq')
+let faqElement = document.querySelector('#faq2')
     if (faqElement) {
         let faqs = [];
-        elemFaq = elem.firstChild.nextElementSibling.firstChild
+        elemFaq = faqElement.nextElementSibling.firstChild
         // loop through next siblings until `null`
         do
             // push sibling to array
@@ -190,7 +189,6 @@ document.querySelectorAll('#tips').forEach(elem => {
             }
         }
     }
-})
 faq['mainEntity'] = mainEntity
 
 //create schema
