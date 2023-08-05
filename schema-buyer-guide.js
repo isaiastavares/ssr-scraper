@@ -28,6 +28,14 @@ let organizationTemplate = `
 }
 `;
 
+let breadcrumbTemplate = `
+{
+    "@type": "BreadcrumbList",
+    "@context": "http://schema.org",
+    "itemListElement": []
+}
+`;
+
 let articleTemplate = `
 {
     "@type": "Article",
@@ -74,9 +82,42 @@ let faqTemplate = `
 `;
 
 let organization = JSON.parse(organizationTemplate)
+let breadcrumb = JSON.parse(breadcrumbTemplate)
 let article = JSON.parse(articleTemplate)
 let itemList = JSON.parse(itemListTemplate)
 let faq = JSON.parse(faqTemplate)
+
+//breadcrumb
+const breadcrumbItems = document.querySelectorAll('.ss-hero-breadrubms a');
+const lastBreadcrumb = document.querySelector('.ss-hero-breadrubms div.text-color-white');
+const breadcrumbItemList = [];
+
+breadcrumbItems.forEach((elem, index) => {
+    const position = index + 1;
+    const name = elem.textContent;
+    const item = elem.href;
+    
+    breadcrumbItemList.push({
+        "@type": "ListItem",
+        "position": position,
+        "name": name,
+        "item": item
+    });
+})
+
+if (lastBreadcrumb) {
+    const position = breadcrumbItems.length + 1;
+    const name = lastBreadcrumb.textContent;
+    const item = document.querySelector("[rel='canonical']").href
+    
+    breadcrumbItemList.push({
+        "@type": "ListItem",
+        "position": position,
+        "name": name,
+        "item": item
+    });
+}
+breadcrumb['itemListElement'] = breadcrumbItemList
 
 // article object
 let pageUrl = document.querySelector("[rel='canonical']").href
@@ -161,8 +202,6 @@ itemList['itemListElement'] = items
 let mainEntity = []
 document.querySelectorAll('.heading-h3.buyers-guide-heading').forEach(buyersGuideHeading => {
     if (buyersGuideHeading.innerText.includes('FAQ')) {
-        console.log(buyersGuideHeading)
-
         let faqs = [];
         elemFaq = buyersGuideHeading.nextElementSibling.firstChild
         // loop through next siblings until `null`
@@ -201,7 +240,7 @@ faq['mainEntity'] = mainEntity
 //create schema
 let schema = {};
 schema['@context'] = "http://schema.org"
-let graph = [organization, article, itemList];
+let graph = [organization, breadcrumb, article, itemList];
 
 if (faq.mainEntity.length) {
     graph.push(faq)
@@ -209,7 +248,6 @@ if (faq.mainEntity.length) {
 
 schema['@graph'] = graph
 
-console.log(schema);
 console.log(JSON.stringify(schema));
 
 // create script
