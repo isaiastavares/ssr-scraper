@@ -28,6 +28,32 @@ let organizationTemplate = `
 }
 `;
 
+let articleTemplate = `
+{
+    "@type": "Article",
+    "@context": "http://schema.org",
+    "headline": "REPLACE",
+    "url": "REPLACE",
+    "dateModified": "REPLACE",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "REPLACE",
+        "description": "REPLACE",
+        "url": "REPLACE",
+        "image": "REPLACE"
+      }
+    ],
+    "contributor": [],
+    "description": "REPLACE",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SelectSoftware Reviews",
+      "url": "https://www.selectsoftwarereviews.com/"
+    }
+}
+`;
+
 let breadcrumbTemplate = `
 {
     "@type": "BreadcrumbList",
@@ -37,7 +63,50 @@ let breadcrumbTemplate = `
 `;
 
 let organization = JSON.parse(organizationTemplate)
+let article = JSON.parse(articleTemplate)
 let breadcrumb = JSON.parse(breadcrumbTemplate)
+
+// article
+let pageUrl = document.querySelector("[rel='canonical']").href
+let pageTitle = document.querySelector('meta[property~="og:title"]')?.content
+let pageDescription = document.querySelector('meta[property~="og:description"]')?.content;
+let date = document.querySelector('.ss-review-author-date').innerText
+let dateFormat = new Date(date).toISOString();
+
+article['headline'] = pageTitle
+article['url'] = pageUrl
+article['dateModified'] = dateFormat
+article['description'] = pageDescription
+
+//author
+document.querySelectorAll('.ss-buyer-author').forEach(authorDiv => {
+    let authorName = authorDiv.querySelector('.ss-buyer-author-name')
+    let authorDescription = authorDiv.querySelector('.ss-review-author-postion')
+    let authorPhoto = authorDiv.querySelector('.ss-buyer-author-photo > img')
+
+    let author = article.author[0]
+    author['name'] = authorName.innerHTML
+    author['description'] = authorDescription.innerHTML
+    author['url'] = authorDiv.href
+    author['image'] = authorPhoto.src
+})
+
+//contributor
+let contributors = []
+document.querySelectorAll('.ssr-experts-list-item').forEach(contributing => {
+    let contributor = {}
+    contributor['@type'] = 'Person'
+    contributor['name'] = contributing.querySelector('.ssr-experts-list-item-name').innerHTML
+    contributor['url'] = contributing.href
+    contributor['image'] = contributing.querySelector('.ssr-buyer-author-photo > img').src
+    contributors.push(contributor)
+})
+
+if (contributors.length) {
+    article['contributor'] = contributors
+} else {
+    delete article.contributor
+}
 
 //breadcrumb
 const breadcrumbItems = document.querySelectorAll('.ss-hero-breadcrumb a');
@@ -74,7 +143,7 @@ breadcrumb['itemListElement'] = breadcrumbItemList
 //create schema
 let schema = {};
 schema['@context'] = "http://schema.org"
-let graph = [organization, breadcrumb];
+let graph = [organization, article, breadcrumb];
 
 schema['@graph'] = graph
 
