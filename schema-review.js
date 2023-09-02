@@ -27,6 +27,14 @@ let organizationTemplate = `
 }
 `;
 
+let breadcrumbTemplate = `
+{
+    "@type": "BreadcrumbList",
+    "@context": "http://schema.org",
+    "itemListElement": []
+}
+`;
+
 let imageObjectTemplate = `
 {
     "@type": "ImageObject",
@@ -112,11 +120,44 @@ let faqTemplate = `
 `;
 
 let organization = JSON.parse(organizationTemplate)
+let breadcrumb = JSON.parse(breadcrumbTemplate)
 let imageObject = JSON.parse(imageObjectTemplate)
 let webPage = JSON.parse(webPageTemplate)
 let review = JSON.parse(reviewTemplate)
 let person = JSON.parse(personTemplate)
 let faq = JSON.parse(faqTemplate)
+
+//breadcrumb
+let breadcrumbItems = document.querySelectorAll('.page-navigation__page a');
+let lastBreadcrumb = document.querySelector('.page-navigation__link');
+let breadcrumbItemList = [];
+
+breadcrumbItems.forEach((elem, index) => {
+    let position = index + 1;
+    let name = elem.textContent;
+    let item = elem.href;
+    
+    breadcrumbItemList.push({
+        "@type": "ListItem",
+        "position": position,
+        "name": name,
+        "item": item
+    });
+})
+
+if (lastBreadcrumb) {
+    let position = breadcrumbItems.length + 1;
+    let name = lastBreadcrumb.textContent;
+    let item = document.querySelector("[rel='canonical']").href
+    
+    breadcrumbItemList.push({
+        "@type": "ListItem",
+        "position": position,
+        "name": name,
+        "item": item
+    });
+}
+breadcrumb['itemListElement'] = breadcrumbItemList
 
 // image object
 let imageUrl = document.querySelector('.vendor-introduction img')

@@ -88,14 +88,14 @@ let itemList = JSON.parse(itemListTemplate)
 let faq = JSON.parse(faqTemplate)
 
 //breadcrumb
-const breadcrumbItems = document.querySelectorAll('.ss-hero-breadrubms a');
-const lastBreadcrumb = document.querySelector('.ss-hero-breadrubms div.text-color-white');
-const breadcrumbItemList = [];
+let breadcrumbItems = document.querySelectorAll('.ss-hero-breadrubms a');
+let lastBreadcrumb = document.querySelector('.ss-hero-breadrubms div.text-color-white');
+let breadcrumbItemList = [];
 
 breadcrumbItems.forEach((elem, index) => {
-    const position = index + 1;
-    const name = elem.textContent;
-    const item = elem.href;
+    let position = index + 1;
+    let name = elem.textContent;
+    let item = elem.href;
     
     breadcrumbItemList.push({
         "@type": "ListItem",
@@ -106,9 +106,9 @@ breadcrumbItems.forEach((elem, index) => {
 })
 
 if (lastBreadcrumb) {
-    const position = breadcrumbItems.length + 1;
-    const name = lastBreadcrumb.textContent;
-    const item = document.querySelector("[rel='canonical']").href
+    let position = breadcrumbItems.length + 1;
+    let name = lastBreadcrumb.textContent;
+    let item = document.querySelector("[rel='canonical']").href
     
     breadcrumbItemList.push({
         "@type": "ListItem",
