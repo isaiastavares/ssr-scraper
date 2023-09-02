@@ -307,7 +307,7 @@ faq['mainEntity'] = mainEntity
 //create schema
 let schema = {};
 schema['@context'] = "http://schema.org"
-let graph = [organization, imageObject, webPage, review, person];
+let graph = [organization, breadcrumb, imageObject, webPage, review, person];
 
 if (faq.mainEntity.length) {
     graph.push(faq)
